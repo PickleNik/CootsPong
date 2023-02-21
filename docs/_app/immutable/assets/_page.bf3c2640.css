@@ -612,7 +612,7 @@ video {
   border-color: rgb(64 64 64 / var(--tw-border-opacity));
 }
 .bg-\[url\(\'cootszoom\.png\'\)\] {
-  background-image: url('/_app/immutable/assets/cootszoom.dc6f71f5.png');
+  background-image: url('/CootsPong/_app/immutable/assets/cootszoom.dc6f71f5.png');
 }
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));

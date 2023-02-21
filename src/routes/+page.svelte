@@ -2,10 +2,6 @@
 	import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
 
-	export const trailingSlash = 'ignore';
-	export const prerender = true;
-	export const ssr = false;
-
 	let gaming = false;
 	let uid = '';
 	let pongs = 0;

@@ -5,21 +5,25 @@ import adapter from '@sveltejs/adapter-static';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+	prerender: {
+		default: true
+	},
 	kit: {
-		// prerender: {
-		// 	default: true
-		// },
 		// adapter: adapter()
 		adapter: adapter({
 			pages: 'docs',
 			assets: 'docs',
-			fallback: 'index.html'
-		})
+			fallback: 'index.html',
+			strict: true
+		}),
+		paths: {
+			base: '/CootsPong'
+		}
+		// appDir: 'CootsPong'
 	},
-	paths: {
-		base: '/CootsPong'
-	},
-	preprocess: vitePreprocess()
+	preprocess: vitePreprocess({
+		postcss: true
+	})
 	// preprocess: {
 	// 	preprocess({
 	//     postcss: true,
