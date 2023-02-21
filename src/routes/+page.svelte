@@ -2,6 +2,10 @@
 	import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
 
+	export const trailingSlash = 'ignore';
+	export const prerender = true;
+	export const ssr = false;
+
 	let gaming = false;
 	let uid = '';
 	let pongs = 0;
@@ -202,10 +206,7 @@
 	}
 	#indicator {
 		border-right: 0.5rem dashed red;
-		@apply fixed right-0 top-0 h-full z-50 blink;
-	}
-	.blink {
-		animation: blink 1s 3 linear forwards;
+		@apply fixed right-[0.15rem] top-0 h-full z-50 blink;
 	}
 	@keyframes blink {
 		0% {
@@ -218,6 +219,10 @@
 			opacity: 0;
 		}
 	}
+	.blink {
+		animation: blink 1s 3 linear forwards;
+	}
+	/* 
 	.changes {
 		line-height: 2.25;
 		@apply sm:w-96 w-52 pb-16 -mt-1;
@@ -228,7 +233,7 @@
 	.line {
 		margin-left: -0.5px;
 		@apply border-r;
-	}
+	} */
 
 	.cootsbg1 {
 		animation: sweep1 5s linear 1;
