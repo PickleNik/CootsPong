@@ -8,23 +8,80 @@
 	let interval;
 	let b;
 	let fin;
+	let p;
+	let px, py;
+	//Speed and direction
+	var pxSpeed = 1;
+	var pySpeed = 1;
+
 	onDestroy(() => {
 		clearInterval(interval);
 	});
 	onMount(async () => {
 		fin = document.querySelector('#fininity');
 		b = document.querySelector('#egg');
-		const { width: bWidth, height: bHeight } = b.getBoundingClientRect(),
-			i = Math.floor(Math.random() * (window.innerWidth - bWidth)) + 1,
-			j = Math.floor(Math.random() * (window.innerHeight - bHeight)) + 1;
+		const { width: bWidth, height: bHeight } = b.getBoundingClientRect();
+		// 	const i = Math.floor(Math.random() * (window.innerWidth - bWidth)) + 1,
+		// 	j = Math.floor(Math.random() * (window.innerHeight - bHeight)) + 1;
 
-		b.style.left = i + 'px';
-		b.style.top = j + 'px';
+		// b.style.left = i + 'px';
+		// b.style.top = j + 'px';
+		//Initial position
+		p = document.querySelector('#pac');
+		px = p?.getBoundingClientRect().left;
+		py = p?.getBoundingClientRect().top;
 	});
+	function chase() {
+		//Move the logo every 10 milliseconds
+		interval = setInterval(() => {
+			if (
+				p.getBoundingClientRect().left - b.getBoundingClientRect().left > 5 ||
+				p.getBoundingClientRect().left - b.getBoundingClientRect().left < -5 ||
+				p.getBoundingClientRect().top - b.getBoundingClientRect().top > 5 ||
+				p.getBoundingClientRect().top - b.getBoundingClientRect().top < -5
+			) {
+				movePac();
+				// console.log(p.getBoundingClientRect().left - b.getBoundingClientRect().left);
+				// console.log(p.getBoundingClientRect().top - b.getBoundingClientRect().top);
+			}
+		}, 10);
+	}
+
+	function movePac() {
+		//Update position
+
+		if (px < b?.getBoundingClientRect().left) {
+			px += pxSpeed;
+			// angle > 0 ? angle-- : angle++;
+		} else if (px != b?.getBoundingClientRect().left) {
+			px -= pxSpeed;
+			// angle > 180 ? angle-- : angle++;
+		}
+
+		if (py < b?.getBoundingClientRect().top) {
+			py += pySpeed;
+			// angle > 90 ? angle-- : angle++;
+		} else if (py != b?.getBoundingClientRect().top) {
+			py -= pySpeed;
+			// angle > 270 ? angle-- : angle++;
+		}
+		// d.style.top = b?.getBoundingClientRect().top + b.offsetHeight / 2 + 'px';
+		// d.style.left = b?.getBoundingClientRect().left + b.offsetHeight / 2 + 'px';
+
+		let dx = px - b?.getBoundingClientRect().left;
+		let dy = b?.getBoundingClientRect().top - py;
+		let angle = (Math.atan2(dx, dy) * 180) / Math.PI;
+		//Set the new position of the logo
+		// if (angle >= 360) angle = 0;
+
+		p.style.left = px + 'px';
+		p.style.top = py + 'px';
+		p.style.rotate = `${angle + 90}deg`;
+	}
 	function dvdbounce() {
 		gaming = true;
-		b.classList.remove('duration-150');
-		b.classList.remove('hover:scale-125');
+		document.getElementById('start').parentElement.removeChild(document.getElementById('start'));
+		chase();
 
 		//Initial position
 		var x = b?.getBoundingClientRect().left;
@@ -135,27 +192,47 @@
 	</div>
 
 	<div
-		class="cootsbg1 bg-[url('cootszoom.png')] opacity-50 rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 top-0 h-[420vh] w-[420vw]"
+		class="cootsbg1 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 top-0 h-[420vh] w-[420vw]"
 	/>
 	<div
-		class="cootsbg2 bg-[url('cootszoom.png')] opacity-50 rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 ml-20 top-0 h-[420vh] w-[420vw]"
+		class="cootsbg2 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 ml-20 top-0 h-[420vh] w-[420vw]"
+	/>
+
+	<img
+		id="pac"
+		alt="PacMan"
+		src="pacman.gif"
+		class="rounded-full transform-gpu will-change-[top,left] fixed left-1/2 top-1/2 h-16 w-16 z-50"
 	/>
 
 	<button
 		id="egg"
-		class="transform-gpu will-change-[top,left] fixed left-1/2 -top-1/2 h-24 w-24 z-50 hover:scale-125 duration-150 rounded-full overflow-hidden"
-		on:click|once={() => dvdbounce()}
+		class="transform-gpu will-change-[top,left] fixed h-24 w-24 z-50 rounded-full overflow-hidden"
+		style="left: calc(50% - 3rem); top: calc(50% - 8rem); filter: drop-shadow(0 0 1rem #000);"
 	>
 		<img class="w-42 h-24" src="cootshead.webp" alt="Egg" />
+	</button>
+	<button
+		id="start"
+		class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 py-2 px-4 z-50 hover:scale-125 hover:rounded-4xl active:scale-50 active:rounded-lg duration-150 rounded-2xl bg-blue-500 text-white font-black text-4xl"
+		on:click|once={() => dvdbounce()}
+	>
+		Start
 	</button>
 	<div class="hidden sm:flex justify-center fixed left-1/2 -translate-x-1/2 h-full">
 		<div class="line border-neutral-700 h-full" />
 	</div>
 	<h1
-		class="flex fixed left-0 top-0 max-w-max py-12 px-4 items-center text-gradient bg-gradient-to-r from-blue-400 to-rose-400 font-bold text-3xl"
+		class="flex fixed left-0 top-0 max-w-max py-12 items-center text-gradient bg-gradient-to-r from-blue-400 to-rose-400 font-bold text-3xl"
 	>
-		<span class="sm:px-4 sm:pl-[2.15rem]">CootsPong</span>
+		<span class="sm:px-4 sm:pl-[3.15rem]">CootsPong</span>
 	</h1>
+	<div class="fixed bottom-4 left-4 font-mono text-xs text-neutral-500">
+		Made by <span class="text-white">P</span>, contributor to
+		<span class="text-red-400">ReturnYouTubeDislike</span>,
+		<span class="text-emerald-400">VueTube</span>
+		and <span class="text-blue-400">RealZoo</span>
+	</div>
 
 	<!-- <div class="mx-auto text-center text-neutral-400 mb-4">Jan. 6</div> -->
 	<div id="fininity" class="hidden md:flex justify-center relative">
@@ -232,26 +309,23 @@
 	} */
 
 	.cootsbg1 {
-		animation: sweep1 5s linear 1;
+		animation: sweep 5s ease-in-out infinite alternate;
 	}
 	.cootsbg2 {
-		animation: sweep2 5s linear 1;
+		animation: sweep 5s ease-in-out infinite alternate-reverse;
 	}
 
-	@keyframes sweep1 {
-		from {
+	@keyframes sweep {
+		0% {
+			opacity: 0.2;
 			transform: translateX(0) translateY(0) rotate(45deg);
 		}
-		to {
-			transform: translateX(30%) translateY(-50%) rotate(45deg);
+		50% {
+			opacity: 0.5;
 		}
-	}
-	@keyframes sweep2 {
-		from {
-			transform: translateX(0) translateY(0) rotate(45deg);
-		}
-		to {
-			transform: translateX(-30%) translateY(50%) rotate(45deg);
+		100% {
+			opacity: 0.2;
+			transform: translateX(3%) translateY(-5%) rotate(45deg);
 		}
 	}
 </style>
