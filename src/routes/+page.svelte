@@ -218,7 +218,7 @@
 	/>
 	<div
 		id="bg2"
-		class="cootsbg2 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-[105vw] ml-20 top-0 h-[420vh] w-[420vw]"
+		class="cootsbg2 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-[105vw] ml-[5rem] top-0 h-[420vh] w-[420vw]"
 	/>
 	<div
 		id="bg3"
@@ -226,7 +226,7 @@
 	/>
 	<div
 		id="bg4"
-		class="cootsbg4 hidden bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 ml-20 top-0 h-[420vh] w-[420vw]"
+		class="cootsbg4 hidden bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 ml-[5rem] top-0 h-[420vh] w-[420vw]"
 	/>
 
 	<img
@@ -241,6 +241,7 @@
 		id="egg"
 		class="transform-gpu will-change-[top,left] fixed h-24 w-24 z-50 rounded-full overflow-hidden"
 		style="left: calc(50% - 3rem); top: calc(50% - 10rem); filter: drop-shadow(0 0 1rem #000);"
+		on:click|once={() => dvdbounce()}
 	>
 		<img class="w-42 h-24" src="cootshead.webp" alt="Egg" />
 	</button>
@@ -255,15 +256,29 @@
 		<div class="line border-neutral-700 h-full" />
 	</div>
 	<h1
-		class="flex fixed left-0 top-0 max-w-max py-12 items-center text-gradient bg-gradient-to-r from-blue-400 to-rose-400 font-bold text-3xl"
+		class="flex fixed left-0 top-0 max-w-max mt-12 items-center text-gradient bg-gradient-to-r from-indigo-500 to-rose-500 font-bold text-3xl sm:ml-[3.15rem] italic"
+		style="filter: drop-shadow(0 0 1rem #000) brightness(150%) saturate(1.5);"
 	>
-		<span class="sm:px-4 sm:pl-[3.15rem]">CootsPong</span>
+		CootsPong
 	</h1>
-	<div class="fixed bottom-4 left-4 font-mono text-xs text-neutral-500">
-		Made by <a class="text-white">PickleNik</a>, contributor to
-		<a class="text-red-400">ReturnYouTubeDislike</a>,
-		<a class="text-emerald-400">VueTube</a>
-		and <a class="text-blue-400">RealZoo</a>
+	<div class="fixed bottom-4 left-4 font-mono text-xs text-neutral-400">
+		Made by <a
+			class="text-white hover:underline hover:font-bold duration-150"
+			href="https://github.com/PickleNik">PickleNik</a
+		>, contributor to
+		<a
+			class="text-red-400 hover:underline hover:font-bold duration-150"
+			href="https://returnyoutubedislike.com/links">ReturnYouTubeDislike</a
+		>,
+		<a
+			class="text-emerald-400 hover:underline hover:font-bold duration-150"
+			href="https://vuetube.app">VueTube</a
+		>
+		and
+		<a
+			class="text-blue-400 hover:underline hover:font-bold duration-150"
+			href="https://realzoo.itsyipy.com">RealZoo</a
+		>
 	</div>
 
 	<!-- <div class="mx-auto text-center text-neutral-400 mb-4">Jan. 6</div> -->
