@@ -13,9 +13,12 @@
 	//Speed and direction
 	var pxSpeed = 1;
 	var pySpeed = 1;
+	let reset = 0;
 
+	let pinterval;
 	onDestroy(() => {
 		clearInterval(interval);
+		clearInterval(pinterval);
 	});
 	onMount(async () => {
 		fin = document.querySelector('#fininity');
@@ -33,7 +36,7 @@
 	});
 	function chase() {
 		//Move the logo every 10 milliseconds
-		interval = setInterval(() => {
+		pinterval = setInterval(() => {
 			if (
 				p.getBoundingClientRect().left - b.getBoundingClientRect().left > 5 ||
 				p.getBoundingClientRect().left - b.getBoundingClientRect().left < -5 ||
@@ -124,7 +127,7 @@
 					let scrollBarBottom = scrollBarTop + scrollBarHeight;
 					if (scrollBarTop > y + b.clientHeight || scrollBarBottom < y) {
 						xSpeed = -xSpeed;
-						uid ? collect() : (pongs = 0);
+						pongs = reset;
 						fin.style.height = '0px';
 						xSpeed = 5;
 						ySpeed = 5;
@@ -140,25 +143,57 @@
 						}, 100);
 					} else {
 						pongs++;
+						// LVL 2
 						if (pongs == 5) {
 							document.getElementById('bg3').classList.remove('hidden');
 							document.getElementById('bg4').classList.remove('hidden');
-							// document.getElementById('bg1').style.animation =
-							// 	'sweep 1.5s ease-in-out infinite alternate';
-							// document.getElementById('bg2').style.animation =
-							// 	'sweep 1.5s ease-in-out infinite alternate-reverse';
+							document.getElementById('lvl2').classList.remove('opacity-0');
 							setTimeout(() => {
 								document.getElementById('bg3').classList.add('hidden');
 								document.getElementById('bg4').classList.add('hidden');
+								document.getElementById('lvl2').classList.add('opacity-0');
 							}, 1500);
 							p.style.opacity = '1';
 							xSpeed = 5;
 							ySpeed = 5;
 							chase();
+							reset = 5;
+						}
+
+						if (pongs == 7) {
+							document.getElementById('lvl2.5').classList.remove('opacity-0');
+							setTimeout(() => {
+								document.getElementById('lvl2.5').classList.add('opacity-0');
+							}, 500);
+						}
+
+						// LVL 3
+						if (pongs == 10) {
+							clearInterval(pinterval);
+							p.style.opacity = '0';
+							document.getElementById('bg3').classList.remove('hidden');
+							document.getElementById('bg4').classList.remove('hidden');
+							document.getElementById('lvl3').classList.remove('opacity-0');
+							setTimeout(() => {
+								document.getElementById('bg3').classList.add('hidden');
+								document.getElementById('bg4').classList.add('hidden');
+								document.getElementById('lvl3').classList.add('opacity-0');
+							}, 1500);
+							xSpeed = 4;
+							ySpeed = 4;
+							reset = 15;
+						}
+						if (pongs < 5) {
+							ySpeed *= 1.35;
+							xSpeed *= 1.35;
+						} else if (pongs < 15) {
+							ySpeed *= 1.1;
+							xSpeed *= 1.1;
+						} else {
+							ySpeed *= 1.05;
+							xSpeed *= 1.05;
 						}
 						// xSpeed += 0.5;
-						ySpeed *= 1.15;
-						xSpeed *= 1.15;
 						// ySpeed += 0.5;
 						scrollSpeed += 0.1;
 						document.getElementById('counter').style.color = 'white';
@@ -203,6 +238,8 @@
 			</div>
 		</div>
 	{/if}
+
+	<!-- COUNTER -->
 	<div class="fixed bottom-4 right-0 flex items-baseline z-50">
 		<span
 			id="counter"
@@ -212,23 +249,26 @@
 		<img id="countegg" src="coots.webp" alt="Egg" class="h-24 w-24" />
 	</div>
 
+	<!-- CAT ARMY -->
 	<div
 		id="bg1"
-		class="cootsbg1 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-[105vw] top-0 h-[420vh] w-[420vw]"
+		class="cootsbg1 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-[105vw] -top-[105vh] h-[420vh] w-[420vw]"
 	/>
 	<div
 		id="bg2"
-		class="cootsbg2 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-[105vw] ml-[5rem] top-0 h-[420vh] w-[420vw]"
+		class="cootsbg2 bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-[105vw] ml-[5.25rem] -top-[105vh] h-[420vh] w-[420vw]"
 	/>
 	<div
 		id="bg3"
-		class="cootsbg3 hidden bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 top-0 h-[420vh] w-[420vw]"
+		class="cootsbg3 hidden bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 -top-[105vh] h-[420vh] w-[420vw]"
 	/>
 	<div
 		id="bg4"
-		class="cootsbg4 hidden bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 ml-[5rem] top-0 h-[420vh] w-[420vw]"
+		class="cootsbg4 hidden bg-[url('cootszoom.png')] rotate-45 bg-repeat outline outline-red-500 fixed -left-1/2 ml-[5.25rem] -top-[105vh] h-[420vh] w-[420vw]"
 	/>
+	<!-- CAT ARMY END -->
 
+	<!-- PAC -->
 	<img
 		id="pac"
 		alt="PacMan"
@@ -237,6 +277,7 @@
 		class="rounded-full transform-gpu will-change-[top,left] fixed left-1/2 top-1/2 h-16 w-16 z-50"
 	/>
 
+	<!-- BALL HEAD -->
 	<button
 		id="egg"
 		class="transform-gpu will-change-[top,left] fixed h-24 w-24 z-50 rounded-full overflow-hidden"
@@ -245,6 +286,8 @@
 	>
 		<img class="w-42 h-24" src="cootshead.webp" alt="Egg" />
 	</button>
+
+	<!-- START -->
 	<button
 		id="start"
 		class="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 py-2 px-4 z-50 hover:scale-125 hover:rounded-4xl active:scale-100 active:rounded-md duration-150 rounded-2xl bg-blue-500 text-white font-black text-4xl"
@@ -252,81 +295,128 @@
 	>
 		Start
 	</button>
-	<div class="hidden sm:flex justify-center fixed left-1/2 -translate-x-1/2 h-full">
-		<div class="line border-neutral-700 h-full" />
-	</div>
+
+	<!-- TITLE -->
 	<h1
-		class="flex fixed left-0 top-0 max-w-max mt-12 items-center text-gradient bg-gradient-to-r from-indigo-500 to-rose-500 font-bold text-3xl sm:ml-[3.15rem] italic"
+		class="flex fixed left-0 top-0 max-w-max mt-12 items-center text-gradient bg-gradient-to-r from-indigo-500 to-rose-500 font-bold text-3xl ml-[1rem] sm:ml-[3.15rem] italic"
 		style="filter: drop-shadow(0 0 1rem #000) brightness(150%) saturate(1.5);"
 	>
 		CootsPong
 	</h1>
-	<div class="fixed bottom-4 left-4 font-mono text-xs text-neutral-400">
-		Made by <a
-			class="text-white hover:underline hover:font-bold duration-150"
-			href="https://github.com/PickleNik">PickleNik</a
-		>, contributor to
+	<span class="fixed left-0 top-0 mt-24 ml-[1rem] sm:ml-[3.15rem] italic text-xs"
+		>Move your scrollbar</span
+	>
+
+	<!-- LINKS -->
+	<div
+		class="fixed bottom-4 left-4 font-mono text-xs text-neutral-400"
+		style="text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;"
+	>
+		Made by
 		<a
-			class="text-red-400 hover:underline hover:font-bold duration-150"
-			href="https://returnyoutubedislike.com/links">ReturnYouTubeDislike</a
-		>,
+			class="text-white hover:underline hover:font-bold duration-150 -mr-2"
+			href="https://github.com/PickleNik"
+			rel="noreferrer"
+			target="_blank"
+		>
+			PickleNik
+		</a>
+		, contributor to
+		<a
+			class="text-red-400 hover:underline hover:font-bold duration-150 -mr-2"
+			href="https://returnyoutubedislike.com/links"
+			rel="noreferrer"
+			target="_blank"
+		>
+			ReturnYouTubeDislike
+		</a>
+		,
 		<a
 			class="text-emerald-400 hover:underline hover:font-bold duration-150"
-			href="https://vuetube.app">VueTube</a
+			href="https://vuetube.app"
+			rel="noreferrer"
+			target="_blank"
 		>
+			VueTube
+		</a>
 		and
 		<a
 			class="text-blue-400 hover:underline hover:font-bold duration-150"
-			href="https://realzoo.itsyipy.com">RealZoo</a
+			href="https://realzoo.itsyipy.com"
+			rel="noreferrer"
+			target="_blank"
 		>
+			RealZoo
+		</a>
 	</div>
 
 	<!-- <div class="mx-auto text-center text-neutral-400 mb-4">Jan. 6</div> -->
-	<div id="fininity" class="hidden md:flex justify-center relative">
-		{#if pongs == 5}
-			<div
-				class="font-bold text-4xl text-gradient bg-gradient-to-r from-blue-400 to-emerald-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
-			>
-				LVL2, Nice! 🚀
-			</div>
-		{/if}
-
-		{#if pongs >= 10 && pongs < 20}
-			<div
-				class="font-bold text-4xl text-gradient bg-gradient-to-r from-pink-400 to-orange-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
-			>
-				🎉 WoW 🎉
-			</div>
-		{/if}
-
-		{#if pongs >= 20 && pongs < 30}
-			<div
-				class="font-bold text-4xl text-gradient bg-gradient-to-r from-violet-400 to-blue-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
-			>
-				Insane 🐷
-			</div>
-		{/if}
-		{#if pongs >= 30}
-			<div
-				class="font-bold text-4xl text-gradient bg-gradient-to-r from-orange-400 to-red-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
-			>
-				Stop. 🛑
-			</div>
-		{/if}
+	<!-- THE LINE -->
+	<div class="fixed left-1/2 -translate-x-1/2 h-full justify-center">
+		<div class="line border-neutral-700 h-full w-full" />
+	</div>
+	<div id="fininity" class="flex pointer-events-none justify-center relative">
 		<div
-			class="fixed bg-gradient-to-b from-transparent via-red-400 to-transparent w-[1px] -ml-[0.5px] h-screen"
+			id="lvl2"
+			class="opacity-0 pointer-events-none duration-150 font-bold text-4xl text-gradient bg-gradient-to-r from-blue-400 to-emerald-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+		>
+			Level 2, Nice! 🚀
+		</div>
+
+		<div
+			id="lvl2.5"
+			class="opacity-0 pointer-events-none duration-150 font-bold text-4xl text-gradient bg-gradient-to-r from-pink-400 to-yellow-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+		>
+			🎉 WoW 🎉
+		</div>
+
+		<div
+			id="lvl3"
+			class="opacity-0 pointer-events-none duration-150 font-bold text-4xl text-gradient bg-gradient-to-r from-violet-400 to-blue-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+		>
+			🐈 Level 3 🐱
+		</div>
+
+		<div
+			id="progress"
+			class={pongs > 9
+				? 'bg-gradient-to-b from-transparent via-rose-500 to-transparent bottom-1/2 translate-y-1/2'
+				: pongs > 7
+				? 'bg-orange-500'
+				: pongs > 4
+				? 'bg-yellow-500'
+				: gaming
+				? 'bg-emerald-500'
+				: 'bg-blue-500'}
+			style="height: {pongs > 9
+				? (pongs / 20) * 200
+				: pongs > 4
+				? (pongs / 10) * 100
+				: gaming
+				? (pongs / 5) * 100
+				: 50}%"
 		/>
 	</div>
 </div>
 
 <style lang="postcss">
+	#progress {
+		@apply fixed w-[1px] -ml-[0.5px] bottom-0 duration-300;
+	}
 	:global(html) {
+		color-scheme: dark;
 		background-color: theme(colors.black);
+		color: theme(colors.neutral.50);
+	}
+	:global(body) {
+		color-scheme: dark;
+		/* background-color: theme(colors.black); */
 		color: theme(colors.neutral.50);
 	}
 	#indicator {
 		border-right: 0.5rem dashed red;
-		@apply fixed right-[0.15rem] top-0 h-full z-50 blink;
+		animation: blink 1s 5 linear forwards;
+		@apply fixed right-[0.15rem] top-0 h-full z-50;
 	}
 	@keyframes blink {
 		0% {
@@ -339,9 +429,6 @@
 			opacity: 0;
 		}
 	}
-	.blink {
-		animation: blink 1s 3 linear forwards;
-	}
 	/* 
 	.changes {
 		line-height: 2.25;
@@ -349,22 +436,21 @@
 	}
 	.date {
 		@apply text-neutral-500 sm:w-96 w-24;
-	}
+	} */
 	.line {
 		margin-left: -0.5px;
 		@apply border-r;
-	} */
-
+	}
 	.cootsbg1 {
 		z-index: -1;
-		opacity: 0.2;
-		transform: translateX(0) translateY(0) rotate(45deg);
+		opacity: 0.5;
+		transform: rotate(45deg);
 		animation: sweep 1.5s ease-in-out infinite alternate;
 	}
 	.cootsbg2 {
 		z-index: -1;
-		opacity: 0.2;
-		transform: translateX(3%) translateY(-5%) rotate(45deg);
+		opacity: 0.5;
+		transform: rotate(45deg);
 		animation: sweep 1.5s ease-in-out infinite alternate-reverse;
 	}
 
@@ -377,7 +463,7 @@
 	.cootsbg4 {
 		z-index: -1;
 		opacity: 0;
-		transform: translateX(3%) translateY(-5%) rotate(45deg);
+		transform: translateX(60px) translateY(-60px) rotate(45deg);
 		animation: sweepop 1.5s ease-in-out infinite alternate-reverse;
 	}
 
@@ -387,11 +473,11 @@
 			transform: translateX(0) translateY(0) rotate(45deg);
 		}
 		50% {
-			opacity: 0.75;
+			opacity: 0.25;
 		}
 		100% {
 			opacity: 0.5;
-			transform: translateX(0.3%) translateY(-0.5%) rotate(45deg);
+			transform: translateX(30px) translateY(-30px) rotate(45deg);
 		}
 	}
 	@keyframes sweepop {
@@ -404,7 +490,7 @@
 		}
 		100% {
 			opacity: 0;
-			transform: translateX(0.3%) translateY(-0.5%) rotate(45deg);
+			transform: translateX(60px) translateY(-60px) rotate(45deg);
 		}
 	}
 </style>
