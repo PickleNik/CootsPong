@@ -128,7 +128,7 @@
 					if (scrollBarTop > y + b.clientHeight || scrollBarBottom < y) {
 						xSpeed = -xSpeed;
 						pongs = reset;
-						fin.style.height = '0px';
+						fin.style.height = '200vh';
 						xSpeed = 5;
 						ySpeed = 5;
 						scrollSpeed = 1.3;
@@ -169,8 +169,8 @@
 
 						// LVL 3
 						if (pongs == 10) {
-							clearInterval(pinterval);
 							p.style.opacity = '0';
+							clearInterval(pinterval);
 							document.getElementById('bg3').classList.remove('hidden');
 							document.getElementById('bg4').classList.remove('hidden');
 							document.getElementById('lvl3').classList.remove('opacity-0');
@@ -179,14 +179,54 @@
 								document.getElementById('bg4').classList.add('hidden');
 								document.getElementById('lvl3').classList.add('opacity-0');
 							}, 1500);
-							xSpeed = 4;
-							ySpeed = 4;
-							reset = 15;
+							xSpeed = 7;
+							ySpeed = 7;
+							reset = 10;
 						}
+
+						if (pongs > 10) {
+							fin.style.height = fin.clientHeight + (pongs * window.innerHeight) / 33 + 'px';
+						}
+
+						if (pongs == 11) {
+							ySpeed *= 2;
+						}
+
+						if (pongs == 12) {
+							ySpeed /= 2;
+						}
+
+						if (pongs == 13) {
+							xSpeed *= 2;
+						}
+
+						if (pongs == 14) {
+							xSpeed /= 2;
+						}
+
+						if (pongs == 18) {
+							xSpeed *= 1.5;
+							ySpeed /= 2;
+						}
+
+						if (pongs == 18) {
+							xSpeed *= 1.5;
+							ySpeed /= 2;
+						}
+
+						if (pongs == 23) {
+							b.style.opacity = '0';
+							clearInterval(pinterval);
+							document.getElementById('bg1').classList.remove('hidden');
+							document.getElementById('bg2').classList.remove('hidden');
+							document.getElementById('win').classList.remove('opacity-0');
+							reset = 'lol';
+						}
+
 						if (pongs < 5) {
 							ySpeed *= 1.35;
 							xSpeed *= 1.35;
-						} else if (pongs < 15) {
+						} else if (pongs < 10) {
 							ySpeed *= 1.1;
 							xSpeed *= 1.1;
 						} else {
@@ -198,7 +238,10 @@
 						scrollSpeed += 0.1;
 						document.getElementById('counter').style.color = 'white';
 						document.getElementById('counter').style.scale = scrollSpeed + ' ' + scrollSpeed;
-						fin.style.height = ((pongs / 5) * window.innerHeight) / 10 + 'px';
+
+						// if (window.innerHeight < 720) {
+						// 	document.getElementById('cheat').classList.remove('hidden');
+						// }
 					}
 				}
 				xSpeed = -xSpeed;
@@ -227,6 +270,12 @@
 </script>
 
 <div class="flex flex-col px-4 relative min-h-[200vh]">
+	<!-- <div
+		id="cheat"
+		class="bg-red-500 text-black fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl rotate-30 z-50 font-black h-screen w-screen flex items-center justify-center hidden"
+	>
+		CHEATER!
+	</div> -->
 	{#if gaming}
 		<div id="indicator">
 			<div class="relative h-full p-4">
@@ -298,18 +347,18 @@
 
 	<!-- TITLE -->
 	<h1
-		class="flex fixed left-0 top-0 max-w-max mt-12 items-center text-gradient bg-gradient-to-r from-indigo-500 to-rose-500 font-bold text-3xl ml-[1rem] sm:ml-[3.15rem] italic"
+		class="flex fixed left-0 top-0 max-w-max mt-12 z-10 items-center text-gradient bg-gradient-to-r from-indigo-500 via-rose-500 to-orange-500 font-bold text-3xl ml-[1rem] sm:ml-[3.15rem] italic"
 		style="filter: drop-shadow(0 0 1rem #000) brightness(150%) saturate(1.5);"
 	>
 		CootsPong
 	</h1>
-	<span class="fixed left-0 top-0 mt-24 ml-[1rem] sm:ml-[3.15rem] italic text-xs"
-		>Move your scrollbar</span
-	>
+	<span class="fixed left-0 top-0 mt-24 ml-[1rem] sm:ml-[3.15rem] italic text-xs">
+		Move your scrollbar
+	</span>
 
 	<!-- LINKS -->
 	<div
-		class="fixed bottom-4 left-4 font-mono text-xs text-neutral-400"
+		class="fixed bottom-4 left-4 font-mono text-xs text-neutral-400 z-10"
 		style="text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;"
 	>
 		Made by
@@ -321,7 +370,8 @@
 		>
 			PickleNik
 		</a>
-		, contributor to
+		, sponsored by
+		<!-- , contributor to
 		<a
 			class="text-red-400 hover:underline hover:font-bold duration-150 -mr-2"
 			href="https://returnyoutubedislike.com/links"
@@ -339,15 +389,16 @@
 		>
 			VueTube
 		</a>
-		and
+		and -->
 		<a
-			class="text-blue-400 hover:underline hover:font-bold duration-150"
+			class="text-blue-400 hover:underline hover:font-bold duration-150 -mr-2"
 			href="https://realzoo.itsyipy.com"
 			rel="noreferrer"
 			target="_blank"
 		>
 			RealZoo
 		</a>
+		.
 	</div>
 
 	<!-- <div class="mx-auto text-center text-neutral-400 mb-4">Jan. 6</div> -->
@@ -355,7 +406,8 @@
 	<div class="fixed left-1/2 -translate-x-1/2 h-full justify-center">
 		<div class="line border-neutral-700 h-full w-full" />
 	</div>
-	<div id="fininity" class="flex pointer-events-none justify-center relative">
+	<div id="fininity" class="relative h-[200vh] -z-1" />
+	<div class="flex pointer-events-none justify-center relative">
 		<div
 			id="lvl2"
 			class="opacity-0 pointer-events-none duration-150 font-bold text-4xl text-gradient bg-gradient-to-r from-blue-400 to-emerald-400 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
@@ -378,18 +430,36 @@
 		</div>
 
 		<div
+			id="win"
+			class="opacity-0 pointer-events-none duration-150 font-bold text-4x fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 text-center"
+		>
+			<img class="rounded-2xl max-h-[50vh]" src="win.jpg" alt="win" />
+
+			<p class="text-gradient bg-gradient-to-r from-violet-400 to-blue-400 pt-8">You won !!1!</p>
+			<p class="text-4xl py-4">CONGRATS! 🎉</p>
+			<p class="font-mono font-thin">
+				Have a cute picture of
+				<a href="https://twitter.com/lilcoots" target="_blank" rel="noreferrer"> Coots </a>
+			</p>
+		</div>
+
+		<div
 			id="progress"
-			class={pongs > 9
-				? 'bg-gradient-to-b from-transparent via-rose-500 to-transparent bottom-1/2 translate-y-1/2'
+			class={pongs > 15
+				? 'bg-pink-500 my-auto bottom-1/2 translate-y-1/2'
+				: pongs > 13
+				? 'bg-violet-500 my-auto bottom-1/2 translate-y-1/2'
+				: pongs > 9
+				? 'bg-indigo-500 my-auto bottom-1/2 translate-y-1/2'
 				: pongs > 7
-				? 'bg-orange-500'
-				: pongs > 4
-				? 'bg-yellow-500'
+				? 'bg-orange-500 bottom-0'
+				: pongs > 5
+				? 'bg-yellow-500 bottom-0'
 				: gaming
-				? 'bg-emerald-500'
-				: 'bg-blue-500'}
+				? 'bg-emerald-500 bottom-0'
+				: 'bg-blue-500 bottom-0'}
 			style="height: {pongs > 9
-				? (pongs / 20) * 200
+				? (pongs / 23) * 100
 				: pongs > 4
 				? (pongs / 10) * 100
 				: gaming
@@ -401,7 +471,7 @@
 
 <style lang="postcss">
 	#progress {
-		@apply fixed w-[1px] -ml-[0.5px] bottom-0 duration-300;
+		@apply fixed w-[1px] -ml-[0.5px] duration-300;
 	}
 	:global(html) {
 		color-scheme: dark;
