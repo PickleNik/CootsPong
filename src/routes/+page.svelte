@@ -1,6 +1,7 @@
 <script>
 	import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
+	import pong from '../ping.mp3';
 
 	let gaming = false;
 	let uid = '';
@@ -245,6 +246,9 @@
 					}
 				}
 				xSpeed = -xSpeed;
+				let audio = new Audio(pong);
+				audio.volume = 0.02;
+				audio.play();
 
 				b.style.scale = '0.5 1';
 				setTimeout(() => {
@@ -254,6 +258,9 @@
 			// Check for edges (bottom / top)
 			if (y + b.clientHeight > window.innerHeight || y < 0) {
 				ySpeed = -ySpeed;
+				let audio = new Audio(pong);
+				audio.volume = 0.02;
+				audio.play();
 				b.style.scale = '1 0.5';
 				setTimeout(() => {
 					b.style.scale = '1 1';
