@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { onMount, onDestroy } from 'svelte';
 	import pong from '../ping.mp3';
+	import pac from '../pac.mp3';
 
 	let gaming = false;
 	let uid = '';
@@ -154,6 +155,9 @@
 								document.getElementById('bg4').classList.add('hidden');
 								document.getElementById('lvl2').classList.add('opacity-0');
 							}, 1500);
+							let audio = new Audio(pac);
+							audio.volume = 0.05;
+							audio.play();
 							p.style.opacity = '1';
 							xSpeed = 5;
 							ySpeed = 5;
@@ -247,7 +251,7 @@
 				}
 				xSpeed = -xSpeed;
 				let audio = new Audio(pong);
-				audio.volume = 0.02;
+				audio.volume = 0.05;
 				audio.play();
 
 				b.style.scale = '0.5 1';
@@ -259,7 +263,7 @@
 			if (y + b.clientHeight > window.innerHeight || y < 0) {
 				ySpeed = -ySpeed;
 				let audio = new Audio(pong);
-				audio.volume = 0.02;
+				audio.volume = 0.05;
 				audio.play();
 				b.style.scale = '1 0.5';
 				setTimeout(() => {
