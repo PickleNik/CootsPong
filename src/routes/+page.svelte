@@ -523,26 +523,26 @@
 		@apply border-r;
 	}
 	.cootsbg1 {
-		z-index: -1;
+		z-index: 0;
 		opacity: 0.5;
 		transform: rotate(45deg);
 		animation: sweep 1.5s ease-in-out infinite alternate;
 	}
 	.cootsbg2 {
-		z-index: -1;
+		z-index: 0;
 		opacity: 0.5;
 		transform: rotate(45deg);
 		animation: sweep 1.5s ease-in-out infinite alternate-reverse;
 	}
 
 	.cootsbg3 {
-		z-index: -1;
+		z-index: 0;
 		opacity: 0;
 		transform: translateX(0) translateY(0) rotate(45deg);
 		animation: sweepop 1.5s ease-in-out infinite alternate;
 	}
 	.cootsbg4 {
-		z-index: -1;
+		z-index: 0;
 		opacity: 0;
 		transform: translateX(60px) translateY(-60px) rotate(45deg);
 		animation: sweepop 1.5s ease-in-out infinite alternate-reverse;
