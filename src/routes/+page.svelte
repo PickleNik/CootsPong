@@ -102,7 +102,12 @@
 
 		//Move the logo every 10 milliseconds
 		interval = setInterval(() => {
-			if (b && document.getElementById('counter') && document.getElementById('countegg')) {
+			if (
+				b &&
+				document.getElementById('counter') &&
+				document.getElementById('countegg') &&
+				gaming
+			) {
 				moveLogo();
 			} else {
 				clearInterval(interval);
@@ -226,6 +231,7 @@
 							document.getElementById('bg2').classList.remove('hidden');
 							document.getElementById('win').classList.remove('opacity-0');
 							reset = 'lol';
+							gaming = false;
 						}
 
 						if (pongs < 5) {
